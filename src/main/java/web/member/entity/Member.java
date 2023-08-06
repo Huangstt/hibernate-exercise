@@ -1,4 +1,4 @@
-package web.member.pojo;
+package web.member.entity;
 
 import java.sql.Timestamp;
 
@@ -40,6 +40,7 @@ public class Member extends Core {
 	private Timestamp lastUpdatedDate;
 	
 	public Member(String username, String nickname) {
+		super();
 		this.username = username;
 		this.nickname = nickname;
 	}

@@ -1,7 +1,7 @@
 package web.member.dao.impl;
 
-import static core.util.CommonUtil.getConnection;
-
+//import static core.util.CommonUtil.getConnection;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import web.member.dao.MemberDao;
-import web.member.pojo.Member;
+import web.member.entity.Member;
 
 public class MemberDaoImpl implements MemberDao {
 
@@ -69,7 +69,7 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		hql.append("nickname = :nickname,")
 			.append("pass = :pass,")
-			.append("roleId = role_id,")
+			.append("roleId = :role_id,")
 			.append("updater = :updater,")
 			.append("lastUpdatedDate = NOW() ")
 			.append("WHERE username = :username");
@@ -82,7 +82,7 @@ public class MemberDaoImpl implements MemberDao {
 		return query
 				.setParameter("nickname", member.getNickname())
 				.setParameter("pass", member.getPass())
-				.setParameter("roleId", member.getRoleId())
+				.setParameter("role_id", member.getRoleId())
 				.setParameter("updater", member.getUpdater())
 				.setParameter("username", member.getUsername())
 				.executeUpdate();
@@ -172,7 +172,7 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public List<Member> selectAll() {
-		final String hql = "FROM MEMBER ORDER BY id";
+		final String hql = "FROM Member ORDER BY id";
 		return getSession()
 				.createQuery(hql, Member.class)
 				.getResultList();
@@ -223,6 +223,7 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public Member selectForLogin(String username, String password) {
+
 		final String sql = "select * from MEMBER where USERNAME = :username and PASSWORD = :password";
 		return getSession()
 				.createNativeQuery(sql, Member.class)
